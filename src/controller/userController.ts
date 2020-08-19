@@ -4,18 +4,20 @@ import { Request, Response, NextFunction } from 'express'; // 可以使用@types
 
 @Controller('users')
 export class UserController {
-  @Get()
-  getAllUser(req: Request, res: Response, next: NextFunction) {
-    res.status(HttpStatus.OK).json([
-      {
-        id: 1,
-        name: 'yxd',
-      },
-    ]);
-  }
+  // @Get()
+  // getAllUser(req: Request, res: Response, next: NextFunction) {
+  //   // res.status(HttpStatus.OK).json([
+  //   return [{ id: 1, name: 'yxd' }];
+  //   //   {
+  //   //     id: 1,
+  //   //     name: 'yxd',
+  //   //   },
+  //   // ]);
+  // }
 
   @Get('/:id')
   public async getUserById(@Res() res, @Param('id') id) {
+    //TODO:@Res 如何注入到res当中的
     if (id === 1) {
       const user = [{ id: 1, name: 'yxd' }];
       res.status(HttpStatus.OK).json(user);
