@@ -9,12 +9,15 @@ import {
   Header,
   Redirect,
   Req,
+  Ip,
+  Query,
+  Body,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 
-import { Request, Response, NextFunction } from 'express'; // 可以使用@types/express包
+import { Request, Response, NextFunction, query } from 'express'; // 可以使用@types/express包
 
-@Controller('users')
+@Controller('/')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -25,36 +28,42 @@ export class AppController {
     res.status(HttpStatus.OK).json([{ params }]);
   }
 
-  @Get('404')
-  @Redirect('http://www.baidu.com', 301)
-  test(): string {
+  @Get()
+  helloG(): string {
     return this.appService.getHello();
   }
 
-  // @Get()
-  // getAllUser(req: Request, res: Response, next: NextFunction) {
-  //   res.status(HttpStatus.OK).json([
-  //     {
-  //       id: 1,
-  //       name: 'yxd',
-  //     },
-  //   ]);
-  // }
-
-  @Get('/:id')
-  public async getUserById(@Res() res, @Param('id') id) {
-    if (id === 1) {
-      const user = [{ id: 1, name: 'yxd' }];
-      res.status(HttpStatus.OK).json(user);
-    } else {
-      res.status(HttpStatus.NOT_FOUND);
-    }
-    // const user = await this.userService.getUser(id);
-  }
-  /**
-   *  @Session() - install express-session
-      @Body() - install body-parser
-   */
   @Post()
-  addUser() {}
+  helloP(@Res() res, @Ip() ip): string {
+    return res.send('post hello' + ip);
+  }
+
+  /**
+   *
+   * @param res
+   * @param query /3000?a=1
+   * @param body x-www-form-urlencoded name:1
+   */
+  @Post('post')
+  queryP(
+    @Req() req,
+    @Res() res,
+    @Query() query,
+    @Body('name') body,
+    @Param() param,
+  ): string {
+    // console.log(query);
+    console.log(body);
+    // console.log(param);
+    return res.send('post hello');
+  }
+
+  @Get('doc')
+  @Redirect('http://www.baidu.com', 301)
+  notFound(@Query('v') v) {
+    // v==1 docs.nest.js
+    // v!=1 baidu.com
+    if (v == 1) return { url: 'https://docs.nestjs.com/v5/', statusCode: 301 };
+    return '404';
+  }
 }

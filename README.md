@@ -21,3 +21,13 @@ Nest是一套基于Node.js的强大的Web框架，可帮助你轻松构建出高
   使用带有@Controller()装饰器的类，负责处理传入的HTTP请求
 - 组件：
   几乎所有事物都可以看作一个组件，可以通过构造函数将组件注入到控制器或者另一个组件中。
+
+### 使用
+
+```
+nest g controller products
+
+nest g service products
+
+nest g module products
+```

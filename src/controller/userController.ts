@@ -18,13 +18,12 @@ export class UserController {
   @Get('/:id')
   public async getUserById(@Res() res, @Param('id') id) {
     //TODO:@Res 如何注入到res当中的
-    if (id === 1) {
+    if (id == 1) {
       const user = [{ id: 1, name: 'yxd' }];
       res.status(HttpStatus.OK).json(user);
     } else {
-      res.status(HttpStatus.NOT_FOUND);
+      res.status(HttpStatus.NOT_FOUND).json({ message: '404' });
     }
-    // const user = await this.userService.getUser(id);
   }
   /**
    *  @Session() - install express-session
