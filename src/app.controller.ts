@@ -19,6 +19,7 @@ import { Request, Response, NextFunction, query } from 'express'; // 可以使�
 
 @Controller('/')
 export class AppController {
+  // 依赖注入
   constructor(private readonly appService: AppService) {}
 
   @Get('user_*/:id/:age')
