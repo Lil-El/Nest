@@ -12,6 +12,7 @@ import {
   Ip,
   Query,
   Body,
+  Inject,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 
@@ -22,6 +23,9 @@ export class AppController {
   // 依赖注入
   constructor(private readonly appService: AppService) {}
 
+  @Inject('CatsService')
+  private catsService;
+
   @Get('user_*/:id/:age')
   @HttpCode(200)
   @Header('yxd_res', 'yxd')
@@ -31,7 +35,7 @@ export class AppController {
 
   @Get()
   helloG(): string {
-    return this.appService.getHello();
+    return this.appService.getHello() + this.catsService.getCat();
   }
 
   @Post()
