@@ -125,4 +125,26 @@ CatsModule:
 2. AppModule中imports导入CatsModule
 3. UserModule中imports导入CatsModule
 
-//TODO:Module 下的  **Nestjs 模块导出**
+### 模块导出
+UserModule中导入了CatsModule，App导入了User；为了在AppConatroller中使用CatsController，我们在AppModule中imports导入了CatsModule；这样Cats就被又导入了一次；
+
+```
+UserModule
+@Module({
+  imports: [CatsModule],
+  controllers: [UserController],
+  providers: [UserService],
+  exports: [CatsModule],
+})
+```
+
+使用**模块导出**，在UserModule中exports导出CatsModule，这样AppModule就无须导入CatsModule也可以调用CatsService
+
+### 全局模块
+因为CatsModule在User和App都使用了，需要在User中进行导入导出；可以将其配置为全局模块，只需在App模块中进行注册，即可在所有模块中使用CatsService，想要使用CatsService的模块则不需要在imports数组中导入CatsModule。
+
+```
+CatsModule
+@Global
+@Module
+```
