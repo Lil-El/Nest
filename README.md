@@ -148,3 +148,8 @@ CatsModule
 @Global
 @Module
 ```
+
+### 动态模块
+- 参考animals.module；在某个模块中注册之后，还可以再将其导出；
+- 设置global，设置为全局模块，User不导入，也可以使用
+- animals.module返回包含controller，就可以访问/cats；否则只能是用CatsService；

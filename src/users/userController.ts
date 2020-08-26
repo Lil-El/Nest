@@ -15,17 +15,18 @@ import { Request, Response, NextFunction, query } from 'express'; // 可以使�
 @Controller('users')
 export class UserController {
   // Optional 表示可选; Inject依赖注入的配置
-  // constructor(private readonly usersService:UsersService) 或 ：
-  constructor(@Optional() @Inject('UserService') private userService) {}
-
+  // private readonly usersService:UsersService 或 ：
+  constructor(@Optional() @Inject('UsersService') private UsersService) {
+    console.log('object');
+    console.log(UsersService);
+  }
   @Inject('CatsService')
-  private readonly catsService;
+  private catsService;
 
   @Get('/')
   async getAllUser(@Res() res, @Query('age') query, next: NextFunction) {
-    let a = await this.userService.getUser(query);
-    let message = await this.catsService.getCat();
-    res.status(HttpStatus.OK).json({ ...a, message });
+    let a = await this.catsService.getCat(query);
+    res.status(HttpStatus.OK).json(a);
   }
 
   @Get('/:id')
