@@ -1,4 +1,15 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  ForbiddenException,
+  NotfoundException,
+} from 'src/exception/forbidden.exception';
 
 @Controller('/cats')
 export class CatsController {
@@ -8,5 +19,29 @@ export class CatsController {
   @Get()
   getCat() {
     return this.catsService.getCat();
+  }
+
+  @Get('aa')
+  getCatAA() {
+    return '您获得一只AA猫';
+  }
+
+  @Get('all')
+  getCatAll() {
+    // 1.抛出异常
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // throw new NotFoundException('你的猫', '没找到');
+    // 2. 定义错误内容
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.FORBIDDEN,
+    //     error: 'Error...',
+    //   },
+    //   HttpStatus.FORBIDDEN,
+    // );
+    // 3. 自定义异常
+    // throw new ForbiddenException();
+    // throw new NotfoundException();
+    return '您获得所有的猫';
   }
 }

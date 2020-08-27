@@ -3,6 +3,7 @@
 ## 概念
 
 Nest 是一套基于 Node.js 的强大的 Web 框架，可帮助你轻松构建出高效的、可扩展的应用程序。它是通过结合 OOP（面向对象编程）和 FP（函数式编程）的最佳理念，采用现代化 JavaScript，使用 TypeScript 构建的。
+
 ## 核心概念
 
 > 应用程序构建块：1. 模块 2. 控制器 3. 组件
@@ -24,7 +25,6 @@ Nest 是一套基于 Node.js 的强大的 Web 框架，可帮助你轻松构建�
 - 消息类型支持的反应微服务（内置 transport 属性，决定使用 TCP 或者 Redis，但是你可以选择使用任何其他使用 CustomTransportStrategy 的交流形式）。
 - 异常处理 layer，异常过滤器，同步和异步 pipes layer。
 
-
 ### 使用
 
 ```
@@ -43,9 +43,11 @@ Module 是容器（Ioc）；controller 使用 service（DI）
 ## Module
 
 ### 功能模块
-Target：在CatsController中使用CatsService
 
-我这里不直接即将CatsC和S注册AppModule下；以以下结构使用；
+Target：在 CatsController 中使用 CatsService
+
+我这里不直接即将 CatsC 和 S 注册 AppModule 下；以以下结构使用；
+
 ```
 --AppModule
   --UserModule
@@ -78,19 +80,20 @@ CatsModule:
   })
 ```
 
-1. 在AppModule中imports导入UserModule；
-2. 在UserModule中imports导入CatsModule；
-3. 创建CatsModule的传入controllers和providers数组
+1. 在 AppModule 中 imports 导入 UserModule；
+2. 在 UserModule 中 imports 导入 CatsModule；
+3. 创建 CatsModule 的传入 controllers 和 providers 数组
 
 ### 共享模块
-Target: 在AppController和UserController中使用CatsController
+
+Target: 在 AppController 和 UserController 中使用 CatsController
+
 ```
 - AppModule
     - CatsModule
     - UserModule
       - CatsModule
 ```
-
 
 ```
 AppModule:
@@ -119,14 +122,15 @@ CatsModule:
   })
 ```
 
-
 在**功能模块**基础上：
-1. CatsModule的exports导出CatsService
-2. AppModule中imports导入CatsModule
-3. UserModule中imports导入CatsModule
+
+1. CatsModule 的 exports 导出 CatsService
+2. AppModule 中 imports 导入 CatsModule
+3. UserModule 中 imports 导入 CatsModule
 
 ### 模块导出
-UserModule中导入了CatsModule，App导入了User；为了在AppConatroller中使用CatsController，我们在AppModule中imports导入了CatsModule；这样Cats就被又导入了一次；
+
+UserModule 中导入了 CatsModule，App 导入了 User；为了在 AppConatroller 中使用 CatsController，我们在 AppModule 中 imports 导入了 CatsModule；这样 Cats 就被又导入了一次；
 
 ```
 UserModule
@@ -138,10 +142,11 @@ UserModule
 })
 ```
 
-使用**模块导出**，在UserModule中exports导出CatsModule，这样AppModule就无须导入CatsModule也可以调用CatsService
+使用**模块导出**，在 UserModule 中 exports 导出 CatsModule，这样 AppModule 就无须导入 CatsModule 也可以调用 CatsService
 
 ### 全局模块
-因为CatsModule在User和App都使用了，需要在User中进行导入导出；可以将其配置为全局模块，只需在App模块中进行注册，即可在所有模块中使用CatsService，想要使用CatsService的模块则不需要在imports数组中导入CatsModule。
+
+因为 CatsModule 在 User 和 App 都使用了，需要在 User 中进行导入导出；可以将其配置为全局模块，只需在 App 模块中进行注册，即可在所有模块中使用 CatsService，想要使用 CatsService 的模块则不需要在 imports 数组中导入 CatsModule。
 
 ```
 CatsModule
@@ -150,6 +155,19 @@ CatsModule
 ```
 
 ### 动态模块
-- 参考animals.module；在某个模块中注册之后，还可以再将其导出；
-- 设置global，设置为全局模块，User不导入，也可以使用
-- animals.module返回包含controller，就可以访问/cats；否则只能是用CatsService；
+
+- 参考 animals.module；在某个模块中注册之后，还可以再将其导出；
+- 设置 global，设置为全局模块，User 不导入，也可以使用
+- animals.module 返回包含 controller，就可以访问/cats；否则只能是用 CatsService；
+
+## 中间件
+
+- 类中间件
+- 函数中间件
+- 全局中间件
+
+## 异常
+
+- 内置异常类
+- 基础异常类
+- 自定义异常
