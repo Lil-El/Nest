@@ -8,6 +8,7 @@ import {
   Res,
   Param,
   Query,
+  HttpException,
 } from '@nestjs/common';
 
 import { Request, Response, NextFunction, query } from 'express'; // 可以使用@types/express包
@@ -29,7 +30,12 @@ export class UserController {
     res.status(HttpStatus.OK).json(a);
   }
 
-  @Get('/:id')
+  @Get('exp')
+  getException() {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+  }
+
+  @Get(':id')
   public async getUserById(@Res() res, @Param('id') id) {
     //TODO:@Res 如何注入到res当中的
     if (id == 1) {
@@ -39,6 +45,7 @@ export class UserController {
       res.status(HttpStatus.NOT_FOUND).json({ message: '404' });
     }
   }
+
   /**
    *  @Session() - install express-session
       @Body() - install body-parser

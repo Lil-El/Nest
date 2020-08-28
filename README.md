@@ -171,3 +171,9 @@ CatsModule
 - 内置异常类
 - 基础异常类
 - 自定义异常
+
+### 异常过滤器
+- 全局过滤
+- 单个controller方法的过滤
+
+//todo:APP_FILTER 

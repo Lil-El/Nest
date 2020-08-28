@@ -5,11 +5,13 @@ import {
   HttpException,
   HttpStatus,
   NotFoundException,
+  UseFilters,
 } from '@nestjs/common';
 import {
   ForbiddenException,
   NotfoundException,
 } from 'src/exception/forbidden.exception';
+import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 
 @Controller('/cats')
 export class CatsController {
@@ -26,6 +28,7 @@ export class CatsController {
     return '您获得一只AA猫';
   }
 
+  @UseFilters(new HttpExceptionFilter())
   @Get('all')
   getCatAll() {
     // 1.抛出异常
@@ -40,7 +43,7 @@ export class CatsController {
     //   HttpStatus.FORBIDDEN,
     // );
     // 3. 自定义异常
-    // throw new ForbiddenException();
+    throw new ForbiddenException();
     // throw new NotfoundException();
     return '您获得所有的猫';
   }
