@@ -173,7 +173,8 @@ CatsModule
 - 自定义异常
 
 ### 异常过滤器
-- 全局过滤
-- 单个controller方法的过滤
 
-//todo:APP_FILTER 
+- 全局过滤
+- 单个 controller 方法的过滤
+- 模块的过滤：App_Filter token
+- 继承基础类的异常
