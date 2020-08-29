@@ -29,6 +29,7 @@ export class CatsController {
   }
 
   @UseFilters(new HttpExceptionFilter())
+  // @UseFilters(HttpExceptionFilter） 尽量使用类，而不是实例，减少内存开销
   @Get('all')
   getCatAll() {
     // 1.抛出异常
@@ -43,8 +44,8 @@ export class CatsController {
     //   HttpStatus.FORBIDDEN,
     // );
     // 3. 自定义异常
-    throw new ForbiddenException();
-    // throw new NotfoundException();
+    // throw new ForbiddenException();
+    throw new NotfoundException();
     return '您获得所有的猫';
   }
 }

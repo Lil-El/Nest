@@ -1,6 +1,13 @@
-import { ExceptionFilter, HttpException, ArgumentsHost } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  HttpException,
+  ArgumentsHost,
+  Catch,
+  NotFoundException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
+@Catch(NotFoundException) // 捕获notFound的异常；其他异常不会捕获；如果为空，捕获所有未捕获的异常
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -8,7 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
     const message = exception.message;
-
+    console.log('拦截到异常了');
     response.status(status).json({
       message,
       statusCode: status,
@@ -17,4 +24,3 @@ export class HttpExceptionFilter implements ExceptionFilter {
     });
   }
 }
-// todo:continue

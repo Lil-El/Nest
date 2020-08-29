@@ -9,10 +9,15 @@ import {
   Param,
   Query,
   HttpException,
+  Catch,
+  UseFilters,
+  NotFoundException,
 } from '@nestjs/common';
 
 import { Request, Response, NextFunction, query } from 'express'; // 可以使用@types/express包
+import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 
+@UseFilters(new HttpExceptionFilter())
 @Controller('users')
 export class UserController {
   // Optional 表示可选; Inject依赖注入的配置
@@ -32,7 +37,8 @@ export class UserController {
 
   @Get('exp')
   getException() {
-    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    throw new NotFoundException();
   }
 
   @Get(':id')
