@@ -6,12 +6,19 @@ import {
   HttpStatus,
   NotFoundException,
   UseFilters,
+  Post,
+  Body,
+  UsePipes,
+  ParseIntPipe,
+  Param,
 } from '@nestjs/common';
 import {
   ForbiddenException,
   NotfoundException,
 } from 'src/exception/forbidden.exception';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { JoiValidationPipe } from 'src/pipe/validate.pipe';
+import { CreateCatDto } from 'src/DTO/create-cat.dto';
 
 @Controller('/cats')
 export class CatsController {
@@ -23,9 +30,18 @@ export class CatsController {
     return this.catsService.getCat();
   }
 
-  @Get('aa')
-  getCatAA() {
-    return '您获得一只AA猫';
+  @Post()
+  // @UsePipes(JoiValidationPipe) // 使用类或创建实例都可以
+  postCat(@Body() createCatDto: CreateCatDto) {
+    // 使用管道验证CreateCatDTO的属性
+    return this.catsService.postCat(createCatDto);
+  }
+
+  @Get(':id')
+  // @UsePipes(ParseIntPipe)
+  getCatAA(@Param('id', new ParseIntPipe()) id) {
+    // console.log(typeof id);
+    return '您获得一只' + id + '猫';
   }
 
   @UseFilters(new HttpExceptionFilter())

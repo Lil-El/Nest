@@ -178,3 +178,20 @@ CatsModule
 - 单个 controller 方法的过滤
 - 模块的过滤：App_Filter token
 - 继承基础类的异常
+
+## 管道
+
+### 内置
+
+- ValidationPipe
+- ParseIntPipe
+- ParseBoolPipe
+- ParseArrayPipe
+- ParseUUIDPipe
+
+### 范围
+
+- 单个参数
+- 单个路由
+- 全局
+- 模块

@@ -1,12 +1,27 @@
-import { Module, Global, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  Global,
+  NestModule,
+  MiddlewareConsumer,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { LoggerMiddleware } from 'src/middleware/logger.middleware';
+import { APP_PIPE } from '@nestjs/core';
+import { JoiValidationPipe } from 'src/pipe/validate.pipe';
 
 @Global()
 @Module({
   controllers: [CatsController],
-  providers: [CatsService],
+  providers: [
+    CatsService,
+    // 为模块设置管道
+    {
+      provide: APP_PIPE,
+      useClass: JoiValidationPipe,
+    },
+  ],
   exports: [CatsService],
 })
 export class CatsModule /**implements NestModule */ {
