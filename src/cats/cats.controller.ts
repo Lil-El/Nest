@@ -11,6 +11,7 @@ import {
   UsePipes,
   ParseIntPipe,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ForbiddenException,
@@ -19,8 +20,10 @@ import {
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 import { JoiValidationPipe } from 'src/pipe/validate.pipe';
 import { CreateCatDto } from 'src/DTO/create-cat.dto';
+import { AuthGuard } from 'src/guard/auth.guard';
 
 @Controller('/cats')
+@UseGuards(AuthGuard) // 传入class，启用依赖注入，通过框架进行实例化
 export class CatsController {
   @Inject('CatsService')
   private catsService;

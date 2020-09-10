@@ -6,7 +6,10 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    console.log(request.url);
+    console.log('守卫看到了', request.query.name);
+    if (request.query.name === 'bad') {
+      return false;
+    }
     return true;
   }
 }
