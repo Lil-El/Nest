@@ -14,12 +14,15 @@ import { CatsModule } from './cats/cats.module';
 import { AnimalModule } from './animals/animals.module';
 import { LoggerMiddleware, logger } from './middleware/logger.middleware';
 import { CatsController } from './cats/cats.controller';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guard/auth.guard';
 
 @Module({
-  imports: [UsersModule, AnimalModule.forAnimal('cat') /** CatsModule */],
+  imports: [UsersModule /** AnimalModule.forAnimal('cat') */ /** CatsModule */],
   controllers: [AppController],
   providers: [AppService],
-  // exports: [AnimalModule], 该模块可以再次导出
+  // exports: [AnimalModule],
+  // 该模块可以再次导出,
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

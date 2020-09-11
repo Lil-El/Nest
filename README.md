@@ -42,6 +42,9 @@ Module 是容器（Ioc）；controller 使用 service（DI）
 
 ## Module
 
+- @imports：导入一个模块 1，1 模块导出的 providers 供当前模块使用
+- @exports：导出 providers，供其他模块导入使用
+
 ### 功能模块
 
 Target：在 CatsController 中使用 CatsService
@@ -87,6 +90,8 @@ CatsModule:
 ### 共享模块
 
 Target: 在 AppController 和 UserController 中使用 CatsController
+
+CatsModule 导出 CatsService，这样其他模块导入 CatsModule 就可以共享同一个 CatsService 实例
 
 ```
 - AppModule
@@ -174,24 +179,49 @@ CatsModule
 
 ### 异常过滤器
 
-- 全局过滤
-- 单个 controller 方法的过滤
-- 模块的过滤：App_Filter token
-- 继承基础类的异常
+- 作用范围：
+
+  - 全局过滤
+    - useGlobalFilters
+    - APP_Filter token （在任何注册的模块下添加，都会提升到全局）
+      > 差别：自定义的异常可能构造器接收一个参数，global 无法传入参数，而使用 token，通过依赖注入的方式，可以自动注入
+  - 过滤整个模块下的路由，即一个 controller
+  - 过滤一个路由
+
+- 异常类型：
+  - 基础异常
+  - 内置异常
+  - 自定义异常 implement
+  - 继承基础类的异常 extend （完全定制异常过滤器）
 
 ## 管道
 
-### 内置
+- 内置管道
 
-- ValidationPipe
-- ParseIntPipe
-- ParseBoolPipe
-- ParseArrayPipe
-- ParseUUIDPipe
+  - ValidationPipe
+  - ParseIntPipe
+  - ParseBoolPipe
+  - ParseArrayPipe
+  - ParseUUIDPipe
 
-### 范围
+- 作用范围
+  - 单个参数
+  - 单个路由
+  - 全局
+  - 模块
 
-- 单个参数
-- 单个路由
-- 全局
-- 模块
+## 守卫
+
+- 作用范围
+  - 单个路由方法
+  - 模块（controller）
+  - 全局
+    - global
+    - token （同上，在哪里注册都是全局）
+- 反射器 SetMetadata
+
+  > 一般不使用 SetMetadata，而是通过自定义一个装饰器，在当中使用 SetMetadata
+
+- 返回
+  - true：交给路由处理
+  - false：默认返回一个错误，也可以自己抛出一个异常；异常会被当前异常层(全局异常过滤器和应用于当前上下文的任何异常过滤器)处理

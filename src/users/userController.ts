@@ -17,7 +17,7 @@ import {
 import { Request, Response, NextFunction, query } from 'express'; // 可以使用@types/express包
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 
-@UseFilters(new HttpExceptionFilter())
+// @UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class UserController {
   // Optional 表示可选; Inject依赖注入的配置
@@ -28,6 +28,8 @@ export class UserController {
   }
   @Inject('CatsService')
   private catsService;
+  // @Inject('DogsService')
+  // private dogsService;
 
   @Get('/')
   async getAllUser(@Res() res, @Query('age') query, next: NextFunction) {
@@ -39,6 +41,12 @@ export class UserController {
   getException() {
     // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     throw new NotFoundException();
+  }
+
+  @Get('dog')
+  public async getDog() {
+    // return this.dogsService.getDog();
+    return '1';
   }
 
   @Get(':id')

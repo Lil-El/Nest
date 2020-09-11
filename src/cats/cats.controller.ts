@@ -4,7 +4,6 @@ import {
   Inject,
   HttpException,
   HttpStatus,
-  NotFoundException,
   UseFilters,
   Post,
   Body,
@@ -12,6 +11,7 @@ import {
   ParseIntPipe,
   Param,
   UseGuards,
+  SetMetadata,
 } from '@nestjs/common';
 import {
   ForbiddenException,
@@ -21,9 +21,13 @@ import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 import { JoiValidationPipe } from 'src/pipe/validate.pipe';
 import { CreateCatDto } from 'src/DTO/create-cat.dto';
 import { AuthGuard } from 'src/guard/auth.guard';
+import { BaseExceptionFilter } from '@nestjs/core';
+import { Roles } from 'src/decorator/role.decorator';
+import { AllExceptionFilter } from 'src/exception/all-exception.filter';
 
 @Controller('/cats')
-@UseGuards(AuthGuard) // 传入class，启用依赖注入，通过框架进行实例化
+// @UseFilters(AllExceptionFilter)
+// @UseGuards(AuthGuard) // 传入class，启用依赖注入，通过框架进行实例化
 export class CatsController {
   @Inject('CatsService')
   private catsService;
@@ -41,13 +45,16 @@ export class CatsController {
   }
 
   @Get(':id')
+  @Roles('admin')
+  // 使用自定义的装饰器，避免直接使用setMetadata
+  // @SetMetadata('role', ['admin']) //反射器，设置role角色，在guard当中判断该路由的role
   // @UsePipes(ParseIntPipe)
   getCatAA(@Param('id', new ParseIntPipe()) id) {
     // console.log(typeof id);
     return '您获得一只' + id + '猫';
   }
 
-  @UseFilters(new HttpExceptionFilter())
+  // @UseFilters(new HttpExceptionFilter())
   // @UseFilters(HttpExceptionFilter） 尽量使用类，而不是实例，减少内存开销
   @Get('all')
   getCatAll() {

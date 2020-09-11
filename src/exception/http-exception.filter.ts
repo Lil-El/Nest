@@ -15,7 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
     const message = exception.message;
-    console.log('拦截到异常了');
+    console.log('拦截到异常了-notFound');
     response.status(status).json({
       message,
       statusCode: status,

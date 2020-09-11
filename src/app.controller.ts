@@ -17,6 +17,7 @@ import {
 import { AppService } from './app.service';
 
 import { Request, Response, NextFunction, query } from 'express'; // 可以使用@types/express包
+import { NotfoundException } from './exception/forbidden.exception';
 
 @Controller('/')
 export class AppController {
@@ -35,6 +36,8 @@ export class AppController {
 
   @Get()
   helloG(): string {
+    // return 'HI! no cat le ';
+    // throw new NotfoundException();
     return this.appService.getHello() + this.catsService.getCat();
   }
 

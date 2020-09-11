@@ -2,6 +2,8 @@ import { Module, DynamicModule, Global } from '@nestjs/common';
 import { CatsService } from '../cats/cats.service';
 import { DogsService } from '../dog/dogs.service';
 import { CatsController } from 'src/cats/cats.controller';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from 'src/guard/auth.guard';
 
 @Module({})
 export class AnimalModule {
@@ -18,7 +20,7 @@ export class AnimalModule {
       module: AnimalModule,
       controllers: [CatsController],
       providers: [CatsService],
-      exports: [CatsService],
+      exports: [CatsService], // 不导出的话，app和user无法使用CatsService
     };
   }
 }
