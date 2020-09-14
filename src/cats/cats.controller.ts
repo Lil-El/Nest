@@ -12,6 +12,7 @@ import {
   Param,
   UseGuards,
   SetMetadata,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ForbiddenException,
@@ -24,8 +25,10 @@ import { AuthGuard } from 'src/guard/auth.guard';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Roles } from 'src/decorator/role.decorator';
 import { AllExceptionFilter } from 'src/exception/all-exception.filter';
+import { LoginInterceptor } from 'src/interceptor/login.interceptor';
 
 @Controller('/cats')
+// @UseInterceptors(LoginInterceptor)
 // @UseFilters(AllExceptionFilter)
 // @UseGuards(AuthGuard) // 传入class，启用依赖注入，通过框架进行实例化
 export class CatsController {

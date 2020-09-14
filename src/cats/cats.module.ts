@@ -8,13 +8,14 @@ import {
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { LoggerMiddleware } from 'src/middleware/logger.middleware';
-import { APP_PIPE, APP_GUARD, APP_FILTER } from '@nestjs/core';
+import { APP_PIPE, APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { JoiValidationPipe } from 'src/pipe/validate.pipe';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { AllExceptionFilter } from 'src/exception/all-exception.filter';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 import { DogsModule } from 'src/dog/dogs.module';
 import { DogsService } from 'src/dog/dogs.service';
+import { LoginInterceptor } from 'src/interceptor/login.interceptor';
 
 // @Global()
 @Module({
@@ -35,6 +36,10 @@ import { DogsService } from 'src/dog/dogs.service';
       // 提升到全局，user 、app的错误也能捕获到
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoginInterceptor,
     },
   ],
   exports: [CatsService],
