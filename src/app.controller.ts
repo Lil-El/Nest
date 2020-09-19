@@ -27,6 +27,9 @@ export class AppController {
   @Inject('CatsService')
   private catsService;
 
+  @Inject('CustomToken')
+  private app2Service;
+
   @Get('user_*/:id/:age')
   @HttpCode(200)
   @Header('yxd_res', 'yxd')
@@ -38,7 +41,11 @@ export class AppController {
   helloG(): string {
     // return 'HI! no cat le ';
     // throw new NotfoundException();
-    return this.appService.getHello() + this.catsService.getCat();
+    return (
+      this.appService.getHello() +
+      this.catsService.getCat() +
+      this.app2Service.app2()
+    );
   }
 
   @Post()

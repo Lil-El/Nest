@@ -14,13 +14,24 @@ import { CatsModule } from './cats/cats.module';
 import { AnimalModule } from './animals/animals.module';
 import { LoggerMiddleware, logger } from './middleware/logger.middleware';
 import { CatsController } from './cats/cats.controller';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guard/auth.guard';
+import { HttpExceptionFilter } from './exception/http-exception.filter';
+import { App2Service } from './tst.service';
 
 @Module({
   imports: [UsersModule /** AnimalModule.forAnimal('cat') */ /** CatsModule */],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      // provide: APP_FILTER,
+      // useClass: HttpExceptionFilter,
+      // useValue: new HttpExceptionFilter(), 需要传入实例对象
+      provide: 'CustomToken', //自定义token
+      useClass: App2Service,
+    },
+  ],
   // exports: [AnimalModule],
   // 该模块可以再次导出,
 })
